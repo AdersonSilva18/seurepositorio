@@ -1,5 +1,8 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite::memory:');
+const { Model, DataTypes, Sequelize } = require('sequelize');
+const sequelize = new Sequelize('apinode', 'root', 'banco123', {
+    host: 'localhost',
+    dialect: 'mysql',
+});
 
 class Endereco extends Model { }
 
@@ -46,9 +49,10 @@ Endereco.init(
     },
     {
         sequelize,
-        timestamps: true,
         modelName: 'Endereco',
+        tableName: 'enderecos',
+        timestamps: true
     },
 );
 
-console.log(User === sequelize.models.User);
+module.exports = Endereco;

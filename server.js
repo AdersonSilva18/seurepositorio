@@ -1,47 +1,12 @@
-const express = require('express')
-const axios = require('axios');
-const app = express()
-const port = 3000
+const express = require('express');
+const rotas = require('./rotas');
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const app  = express();
 
-app.get('/rota', (req, res) => {
-  // res.send('Minha primiera rota!')
+app.use(express.json());
+app.use('/api', rotas);
 
-  axios.get('https://pokeapi.co/api/v2/pokemon/bulbasaur')
-    .then(function (response) {
-      res.send(response.data)
-    })
-    .catch(function (error) {
-      console.error(error);
-    })
-    .finally(function () {
-    });
-})
-
-app.get('/consulta-cep/:cep', (req, res) => {
-
-  const regex = /^[0-9]{5}-[0-9]{3}$/
-  const cep = req.params.cep
-  if (regex.test(cep)) {
-    axios.get(`https://viacep.com.br/ws/${cep}/j\son/`)
-      .then(function (response) {
-        res.send(response.data)
-      })
-      .catch(function (error) {
-        console.error(error);
-      })
-      .finally(function () {
-      });
-  } else {
-    res.send('Cep invalido').status(400)
-  }
-
-
-})
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
 })
