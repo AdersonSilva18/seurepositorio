@@ -1,15 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Formulario Exercicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <form action="" method="post">
 
-        <input type="text" name="" id="">
-    </form>
+<body>
+    <div class="container mx-auto " style="padding-top:  110px;">
+        <form id="formEndereco" class="max-w-sm mx-auto" method="post">
+            <h1 class="uppercase pb-2">Formulario de Endereço</h1>
+
+            <div class="">
+                <div class="mb-5">
+                    <label for="logradouro" class="block mb-2 text-sm font-medium text-gray-900">logradouro</label>
+                    <input type="text" id="logradouro"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        required />
+                </div>
+                <div class="mb-5">
+                    <label for="numero" class="block mb-2 text-sm font-medium text-gray-900">numero</label>
+                    <input type="text" id="numero"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        required />
+                </div>
+                <div class="mb-5">
+                    <label for="cep" class="block mb-2 text-sm font-medium text-gray-900">cep</label>
+                    <input type="text" id="cep"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        required />
+                </div>
+                <div class="mb-5">
+                    <label for="complemento" class="block mb-2 text-sm font-medium text-gray-900">complemento</label>
+                    <input type="text" id="complemento"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        required />
+                </div>
+                <div class="mb-5">
+                    <label for="bairro" class="block mb-2 text-sm font-medium text-gray-900">bairro</label>
+                    <input type="text" id="bairro"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        required />
+                </div>
+                <div class="mb-5">
+                    <label for="cidade" class="block mb-2 text-sm font-medium text-gray-900">cidade</label>
+                    <input type="text" id="cidade"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        required />
+                </div>
+                <div class="mb-5">
+                    <label for="estado" class="block mb-2 text-sm font-medium text-gray-900">estado</label>
+                    <input type="text" id="estado"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        required />
+                </div>
+                <div class="mb-5">
+                    <label for="municipioIBGE"
+                        class="block mb-2 text-sm font-medium text-gray-900">municipioIBGE</label>
+                    <input type="text" id="municipioIBGE"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        required />
+                </div>
+                <button type="submit"
+                    class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">Submit
+                </button>
+                <div class="mb-5">
+                    <p id="message" class="text-red"></p>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('formEndereco').addEventListener('submit', async (event) => {
+
+            event.preventDefault();
+
+            const logradouro = document.getElementById('logradouro').value;
+            const cidade = document.getElementById('cidade').value;
+            const estado = document.getElementById('estado').value;
+            const cep = document.getElementById('cep').value;
+
+            const addressData = {
+                logradouro,
+                cidade,
+                estado,
+                cep
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/enderecos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(addressData)
+                });
+                const result = response.json();
+
+                if (response.ok) {
+                    document.getElementById('message').innerText = 'Endereço enviado com sucesso!';
+                    document.getElementById('formEndereco').reset();
+                } else {
+                    document.getElementById('message').innerText = `Erro: ${result.message}`;
+                }
+            } catch (error) {
+                document.getElementById('message').innerText = 'Erro na comunicação com o servidor!';
+            }
+        });
+
+    </script>
 </body>
+
 </html>
